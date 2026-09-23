@@ -3,10 +3,11 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@
 type Props={
     activity:Activity
     cancelSelectedActivity: () => void
+    openForm: (id: string) => void
 }
 
 
-export default function ActivityDetails({activity, cancelSelectedActivity}:Props) {
+export default function ActivityDetails({activity, cancelSelectedActivity,openForm }:Props) {
   return (
     <div>
       <Card>
@@ -26,7 +27,9 @@ export default function ActivityDetails({activity, cancelSelectedActivity}:Props
             </Typography>
         </CardContent>
         <CardActions>
-            <Button color='primary'>Edit</Button>
+            <Button color='primary' onClick={() => openForm(activity.id)}>
+                Edit
+            </Button>
             <Button color='inherit' onClick={cancelSelectedActivity}>
                 Cancel
             </Button>

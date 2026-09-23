@@ -27,7 +27,7 @@ export default function NavBar({openForm}: Props) {
               <Box sx={{ fontSize: '1.2rem', textTransform: 'uppercase', fontWeight: 'bold' }}>Contact</Box>
             </Box>
 
-            <Button variant="contained" sx={{ textTransform: 'uppercase', fontWeight: 'bold' }} color="warning">
+            <Button onClick={openForm} variant="contained" sx={{ textTransform: 'uppercase', fontWeight: 'bold' }} color="warning">
               Create Activity
             </Button>
           </Toolbar>
