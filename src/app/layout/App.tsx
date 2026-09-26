@@ -32,6 +32,10 @@ function App() {
     setEditMode(false);
   }
 
+  const handleDeleteActivity = (id: string) => {
+    setActivities(activities.filter(a => a.id !== id));
+  }
+
   const handleSubmitForm = (activity: Activity) => {
     if (activity.id) {
       setActivities(activities.map(x => x.id === activity.id ? activity : x));
@@ -55,6 +59,7 @@ function App() {
           editMode={editMode}
           closeForm={handleCloseForm}
           submitForm={handleSubmitForm}
+          deleteActivity={handleDeleteActivity}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectedActivity}
           cancelSelectedActivity={handleCancelSelectedActivity}>
