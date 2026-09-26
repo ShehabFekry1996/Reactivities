@@ -2,7 +2,6 @@ import axios from "axios";
   const sleep = (delay: number) => {
     return new Promise((resolve) => {
       setTimeout(resolve, delay);
-      console.log(import.meta.env.VITE_API_URL);
     })};
 
 

@@ -33,18 +33,6 @@ function App() {
     console.log('Deleting activity with id:', id);
   }
 
-  const handleSubmitForm = (activity: Activity) => {
-    // if (activity.id) {
-    //   setActivities(activities.map(x => x.id === activity.id ? activity : x));
-    //   setSelectedActivity(activity);
-    // } else {
-    //   const newActivity = { ...activity, id: activities.length.toString() };
-    //   setActivities([...activities, newActivity]);
-    //   setSelectedActivity(newActivity);
-    // }
-    console.log('Submitting activity:', activity);
-    setEditMode(false);
-  }
 
   return (
     <>
@@ -59,7 +47,6 @@ function App() {
             openForm={handleOpenForm}
             editMode={editMode}
             closeForm={handleCloseForm}
-          submitForm={handleSubmitForm}
           deleteActivity={handleDeleteActivity}
           selectedActivity={selectedActivity}
           selectActivity={handleSelectedActivity}
