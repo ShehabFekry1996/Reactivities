@@ -5,6 +5,7 @@ import ActivityForm from "../../../features/activities/details/form/ActivityForm
 import ActivityDashboard from "../../../features/activities/dashboard/ActivityDashboard";
 import ActivityDetailPage from "../../../features/activities/details/ActivityDetailPage";
 import Counter from "../../../features/counter/Counter";
+import TestErrors from "../../../features/home/Errors";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         {path: 'createActivity',element: <ActivityForm key='create'/>},
         {path: 'manage/:id',element: <ActivityForm/>},
         {path: 'counter',element: <Counter/>},
+        {path: 'errors',element: <TestErrors/>},
     ]
   }
 ]);

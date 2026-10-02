@@ -1,5 +1,6 @@
 import axios from "axios";
 import { store } from "../stores/store";
+import { toast } from "react-toastify";
   const sleep = (delay: number) => {
     return new Promise((resolve) => {
       setTimeout(resolve, delay);
@@ -15,19 +16,35 @@ agent.interceptors.request.use(config => {
   return config;
 })
 
-agent.interceptors.response.use(async response =>{
-    try{
+agent.interceptors.response.use(async response =>
+    {
         await sleep(1000);
+        store.uiStore.isIdle()
         return response;
+    }, async error  => {
+        await sleep(1000);
+        store.uiStore.isIdle();
+        const {status} = error.response;
+        switch  (status){
+          case 400:
+            toast.error('bad request')
+            break;
+          case 401:
+              toast.error('Unauthorized')
+              break;
+          case 404:
+              toast.error('Not found')
+              break;
+          case 500:
+              toast.error('server error')
+              break;
+              default:
+                break;
+        }
+        console.log('axios error: ',error);
+        return Promise.reject(error);
     }
-    catch(error){
-        console.log(error);
-        return await Promise.reject(error);
-    }
-    finally{
-      store.uiStore.isIdle();
-    }
-})
+);
 
 
 export default agent;
