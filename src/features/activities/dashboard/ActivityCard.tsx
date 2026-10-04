@@ -2,6 +2,7 @@ import { AccessTime, Place } from "@mui/icons-material";
 import { Avatar, Box, Button, Card, CardContent, CardHeader, Chip, Divider, Typography } from "@mui/material";
 import { Link } from "react-router";
 import { formatDate } from "../../../lib/util/util";
+import type { Activity } from "../../../lib/types";
 
 type Props = {
   activity: Activity;
@@ -19,7 +20,7 @@ export default function ActivityCard({activity}: Props) {
             <CardHeader 
             avatar={<Avatar sx={{height:80,width:80}}></Avatar>} 
             title={activity.title} 
-            titleTypographyProps={{fontWeight:'bold',fontSize:20}}
+            slotProps={{fontWeight:'bold',fontSize:20}}
             subheader={
                 <>
                 Hosted by {' '} <Link to={`/profiles/bob`}>Bob</Link>
