@@ -8,14 +8,24 @@ export const useActivities = (id?: string) => {
     const location = useLocation();
     const queryClient = useQueryClient();
     const {currentUser} = useAccounts();
+    console.log('currentUser', currentUser);
       const {data:activities,isLoading} = useQuery({
     queryKey: ['activities'],
     queryFn: async () => {
       const response = await agent.get<Activity[]>('activities');
       return response.data;
     },
-    enabled : !id && location.pathname ==='/activities' && !!currentUser 
+    enabled : !id && location.pathname ==='/activities' && !!currentUser ,
     //if we have the id then this is enabled if we don't then don't execute    
+    select:data =>{
+        return data.map(activity => {
+            return{
+                ...activity,
+                isHost: currentUser?.id  === activity.hostId,
+                isGoing: activity.attendees.some(x=>x.id === currentUser?.id)
+            }
+        })
+    }
   });
 
   const {data: activity, isLoading: isLoadingActivity} = useQuery({
@@ -24,8 +34,16 @@ export const useActivities = (id?: string) => {
         const response = await agent.get<Activity>(`/activities/${id}`)
         return response.data;
     },
-    enabled: !!id && !!currentUser
+    enabled: !!id && !!currentUser,
      //if we have the id then this is enabled if we don't then don't execute
+     select: data =>{
+        return{
+            ...data,
+                  isHost: currentUser?.id  === data.hostId,
+                isGoing: data.attendees.some(x=>x.id === currentUser?.id)
+
+        }
+     }
   })
 
  const updateActivity = useMutation({
