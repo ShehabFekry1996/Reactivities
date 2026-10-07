@@ -1,17 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import agent from "../../api/agent";
 import { useLocation } from "react-router";
+import type { Activity } from "..";
+import { useAccounts } from "./useAccounts";
 
 export const useActivities = (id?: string) => {
     const location = useLocation();
     const queryClient = useQueryClient();
-      const {data:activities,isPending} = useQuery({
+    const {currentUser} = useAccounts();
+      const {data:activities,isLoading} = useQuery({
     queryKey: ['activities'],
     queryFn: async () => {
       const response = await agent.get<Activity[]>('activities');
       return response.data;
     },
-    enabled : !id && location.pathname ==='/activities'
+    enabled : !id && location.pathname ==='/activities' && !!currentUser 
+    //if we have the id then this is enabled if we don't then don't execute    
   });
 
   const {data: activity, isLoading: isLoadingActivity} = useQuery({
@@ -20,7 +24,8 @@ export const useActivities = (id?: string) => {
         const response = await agent.get<Activity>(`/activities/${id}`)
         return response.data;
     },
-    enabled: !!id //if we have the id then this is enabled if we don't then don't execute
+    enabled: !!id && !!currentUser
+     //if we have the id then this is enabled if we don't then don't execute
   })
 
  const updateActivity = useMutation({
@@ -49,5 +54,5 @@ export const useActivities = (id?: string) => {
         await queryClient.invalidateQueries({ queryKey: ['activities'] });
     }
  })
-  return { activities, isPending ,updateActivity,createActivity,deleteActivity, activity,isLoadingActivity  };
+  return { activities, isLoading ,updateActivity,createActivity,deleteActivity, activity,isLoadingActivity  };
 }
