@@ -1,4 +1,4 @@
-import { format, type DateArg } from "date-fns";
+import { format, formatDistanceToNow, type DateArg } from "date-fns";
 import z from "zod";
 
 export function formatDate(date:DateArg<Date>){
@@ -7,3 +7,8 @@ export function formatDate(date:DateArg<Date>){
 
 export const requiredString = (fieldName:string) => z.string({required_error: `${fieldName} is required`})
     .min(1,{ message: `${fieldName} is required`});
+
+
+    export function timeAgo(date: DateArg<Date>){
+        return formatDistanceToNow(date);
+    }
