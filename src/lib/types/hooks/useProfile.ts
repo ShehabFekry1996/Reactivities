@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import type { Activity, Photo, Profile, User } from "../index";
+import type { Photo, Profile, User, UserActivity } from "../index";
 import agent from "../../api/agent";
 import type { EditProfileSchema } from "../../schemas/editProfileSchema";
 
 export const useProfile = (id?: string, predicate?: string) => {
-  const [filter, setFilter] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string>("future");
   const queryClient = useQueryClient();
 
   const { data: profile, isLoading: loadingProfile } = useQuery<Profile>({
@@ -36,13 +36,13 @@ export const useProfile = (id?: string, predicate?: string) => {
       );
       return response.data;
     },
-    enabled: !!id && !!predicate,
+    enabled: !!id && !!predicate && predicate !== "activities",
   });
 
   const { data: userActivities, isLoading: loadingUserActivities } = useQuery({
-    queryKey: ["user-activities", filter],
+    queryKey: ["user-activities", id, filter],
     queryFn: async () => {
-      const response = await agent.get<Activity[]>(
+      const response = await agent.get<UserActivity[]>(
         `/profiles/${id}/activities`,
         {
           params: {
@@ -52,7 +52,7 @@ export const useProfile = (id?: string, predicate?: string) => {
       );
       return response.data;
     },
-    enabled: !!id && !!filter,
+    enabled: !!id && !!filter && predicate === "activities",
   });
 
   const uploadPhoto = useMutation({
@@ -87,7 +87,7 @@ export const useProfile = (id?: string, predicate?: string) => {
 
   const setMainPhoto = useMutation({
     mutationFn: async (photo: Photo) => {
-      await agent.put(`/profiles/${photo.id}/setMain`, {});
+      await agent.put(`/profiles/${photo.id}/set-main-photo`, {});
     },
     onSuccess: (_, photo) => {
       queryClient.setQueryData(["user"], (userData: User) => {
@@ -127,6 +127,7 @@ export const useProfile = (id?: string, predicate?: string) => {
         queryClient.invalidateQueries({
           queryKey: ["followings", id, "followers"],
         });
+        queryClient.invalidateQueries({ queryKey: ["people"] });
         if (!profile || profile.followersCount === undefined) return profile;
         return {
           ...profile,

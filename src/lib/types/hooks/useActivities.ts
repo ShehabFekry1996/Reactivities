@@ -9,9 +9,9 @@ export const useActivities = (id?: string) => {
     const location = useLocation();
     const queryClient = useQueryClient();
     const {currentUser} = useAccounts();
-    const {activityStore: {filter, startDate, sortOrder}} = useStore();
+    const {activityStore: {filter, startDate, sortOrder, category, search}} = useStore();
     const {data:activitiesGroup,isLoading,isFetchingNextPage,fetchNextPage,hasNextPage} = useInfiniteQuery({
-    queryKey: ['activities', filter, startDate, sortOrder],
+    queryKey: ['activities', filter, startDate, sortOrder, category, search],
     queryFn: async ({pageParam = null}) => {
       const response = await agent.get<PagedList<Activity, string>>('activities', {
         params: {
@@ -19,7 +19,9 @@ export const useActivities = (id?: string) => {
             pageSize: 3,
             filter: filter === 'all' ? undefined : filter,
             startDate,
-            sortOrder
+            sortOrder,
+            category: category || undefined,
+            search: search || undefined
         }
       });
       return response.data;
@@ -65,7 +67,7 @@ export const useActivities = (id?: string) => {
 
  const updateActivity = useMutation({
     mutationFn: async (activity: Activity) => {
-        await agent.put('/activities',activity);
+        await agent.put(`/activities/${activity.id}`,activity);
     },
     onSuccess:async () => {
         await queryClient.invalidateQueries({ queryKey: ['activities'] });
@@ -73,7 +75,7 @@ export const useActivities = (id?: string) => {
  })
 
   const createActivity = useMutation({
-    mutationFn: async (activity: Activity) => {
+    mutationFn: async (activity: Partial<Activity>) => {
         const response = await agent.post('/activities',activity);
         return response.data;
     },
@@ -110,6 +112,9 @@ export const useActivities = (id?: string) => {
             }
         })
         return {prevActivity};
+    },
+    onSettled: async () => {
+        await queryClient.invalidateQueries({ queryKey: ['activities'] });
     },
     onError: (error,activityId,context) => {
         console.log(error);

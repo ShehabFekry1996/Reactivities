@@ -40,34 +40,42 @@ export default function PhotoUploadWidget({ uploadPhoto, loading }: Props) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <Grid container spacing={3}>
-      <Grid size={4}>
+      <Grid size={{ xs: 12, md: 4 }}>
         <Typography variant="overline" color="secondary">
           Step 1 - Add photo
         </Typography>
         <Box
           {...getRootProps()}
           sx={{
-            border: "dashed 3px #eee",
-            borderColor: isDragActive ? "green" : "#eee",
-            borderRadius: "5px",
-            paddingTop: "30px",
+            border: "dashed 2px",
+            borderColor: isDragActive ? "primary.main" : "divider",
+            bgcolor: isDragActive ? "action.hover" : "transparent",
+            borderRadius: 4,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
-            height: "280px",
+            height: { xs: 200, md: 280 },
+            cursor: "pointer",
+            transition: "all .2s",
+            "&:hover": { borderColor: "primary.main" },
           }}
         >
           <input {...getInputProps()} />
-          <CloudUpload sx={{ fontSize: 80 }} />
-          <Typography variant="h5">Drop image here</Typography>
+          <CloudUpload sx={{ fontSize: 64, color: "primary.main" }} />
+          <Typography variant="h6">Drop image here</Typography>
+          <Typography variant="body2" color="text.secondary">or click to browse</Typography>
         </Box>
       </Grid>
-      <Grid size={4}>
+      <Grid size={{ xs: 12, md: 4 }}>
         <Typography variant="overline" color="secondary">
           Step 2 - Resize image
         </Typography>
         {files[0]?.preview && (
           <Cropper
             src={files[0]?.preview}
-            style={{ height: 300, width: "90%" }}
+            style={{ height: 300, width: "100%" }}
             aspectRatio={1}
             initialAspectRatio={1}
             preview=".img-preview"
@@ -78,7 +86,7 @@ export default function PhotoUploadWidget({ uploadPhoto, loading }: Props) {
           />
         )}
       </Grid>
-      <Grid size={4}>
+      <Grid size={{ xs: 12, md: 4 }}>
         {files[0]?.preview && (
           <>
             <Typography variant="overline" color="secondary">
@@ -86,13 +94,13 @@ export default function PhotoUploadWidget({ uploadPhoto, loading }: Props) {
             </Typography>
             <div
               className="img-preview"
-              style={{ width: 300, height: 300, overflow: "hidden" }}
+              style={{ width: "100%", maxWidth: 300, aspectRatio: "1", overflow: "hidden", borderRadius: 16 }}
             />
             <Button
-              sx={{ my: 1, width: 300 }}
+              sx={{ my: 1, width: "100%", maxWidth: 300 }}
               onClick={onCrop}
               variant="contained"
-              color="secondary"
+              color="primary"
               loading={loading}
             >
               Upload

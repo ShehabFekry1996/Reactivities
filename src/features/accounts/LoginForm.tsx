@@ -2,10 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "../../lib/schemas/loginSchema";
 import { useAccounts } from "../../lib/types/hooks/useAccounts";
 import { useForm } from "react-hook-form";
-import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
-import { LockOpen } from "@mui/icons-material";
+import { Box, Button, Typography } from "@mui/material";
 import TextInput from "../../app/shared/components/TextInput";
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import AuthLayout from "./AuthLayout";
 
 export default function LoginForm() {
   const { loginUser } = useAccounts();
@@ -29,47 +29,7 @@ export default function LoginForm() {
     }
 
   return (
-    <Paper
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      elevation={6}
-      sx={{
-        p: { xs: 3, sm: 5 },
-        mt: 8,
-        mx: "auto",
-        maxWidth: 440,
-        borderRadius: 4,
-        display: "flex",
-        flexDirection: "column",
-        gap: 3,
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <Avatar
-          sx={{
-            bgcolor: "secondary.main",
-            width: 56,
-            height: 56,
-            boxShadow: 3,
-          }}
-        >
-          <LockOpen fontSize="large" />
-        </Avatar>
-        <Typography variant="h4" sx={{ fontWeight: 700 }}>
-          Welcome back
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Sign in to continue
-        </Typography>
-      </Box>
-
+    <AuthLayout title="Welcome back 👋" subtitle="Sign in to continue to Reactivities" onSubmit={handleSubmit(onSubmit)}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
         <TextInput label="Email" name="email" type="email" control={control} />
         <TextInput
@@ -86,27 +46,16 @@ export default function LoginForm() {
         size="large"
         fullWidth
         disabled={!isValid || isSubmitting}
-        sx={{
-          py: 1.5,
-          borderRadius: 2,
-          fontWeight: 600,
-          textTransform: "none",
-          fontSize: "1rem",
-        }}
+        sx={{ py: 1.5, fontSize: "1rem" }}
       >
         {isSubmitting ? "Signing in..." : "Login"}
       </Button>
       <Typography variant="body2" color="text.secondary" align="center">
         Don't have an account?{" "}
-        <Button
-          variant="text"
-          
-          color="primary"
-          onClick={() => navigate("/register")}
-        >
+        <Box component={Link} to="/register" sx={{ color: "primary.main", fontWeight: 700, textDecoration: "none" }}>
           Register
-        </Button>
+        </Box>
       </Typography>
-    </Paper>
+    </AuthLayout>
   );
 }

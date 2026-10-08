@@ -1,56 +1,80 @@
 import { Box, Paper, Tab, Tabs } from "@mui/material";
+import { Event, Info, People, PersonAdd, PhotoLibrary } from "@mui/icons-material";
 import { useState, type SyntheticEvent } from "react";
-import type { Profile } from "../../lib/types";
+import { motion } from "motion/react";
 import ProfilePhotos from "./ProfilePhotos";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFollowings from "./ProfileFollowings";
+import ProfileActivities from "./ProfileActivities";
 
-type Props = {
-  profile: Profile;
-};
-
-export default function ProfileContent({ profile }: Props) {
+export default function ProfileContent() {
   const [value, setValue] = useState(0);
   const handleChange = (_: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
   const tabContent = [
-    { label: "About", content: <ProfileAbout></ProfileAbout> },
-    { label: "Photos", content: <ProfilePhotos></ProfilePhotos> },
-    { label: "Events", content: <div>Events</div> },
-    {
-      label: "Followers",
-      content: <ProfileFollowings activeTab={value}></ProfileFollowings>,
-    },
-    {
-      label: "Following",
-      content: <ProfileFollowings activeTab={value}></ProfileFollowings>,
-    },
+    { label: "About", icon: <Info />, content: <ProfileAbout /> },
+    { label: "Photos", icon: <PhotoLibrary />, content: <ProfilePhotos /> },
+    { label: "Events", icon: <Event />, content: <ProfileActivities /> },
+    { label: "Followers", icon: <People />, content: <ProfileFollowings activeTab={value} /> },
+    { label: "Following", icon: <PersonAdd />, content: <ProfileFollowings activeTab={value} /> },
   ];
   return (
-    <Box
-      component={Paper}
+    <Paper
       sx={{
         display: "flex",
-        alignItems: "flex-start",
-        borderRadius: 3,
-        mt: 2,
-        p: 3,
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "stretch",
+        borderRadius: { xs: 4, md: 6 },
         minHeight: 500,
+        overflow: "hidden",
       }}
-      elevation={3}
     >
+      <Tabs
+        orientation="horizontal"
+        variant="scrollable"
+        scrollButtons={false}
+        value={value}
+        onChange={handleChange}
+        sx={{
+          display: { xs: "flex", md: "none" },
+          borderBottom: 1,
+          borderColor: "divider",
+          px: 1,
+        }}
+      >
+        {tabContent.map((tab, index) => (
+          <Tab key={index} label={tab.label} />
+        ))}
+      </Tabs>
       <Tabs
         orientation="vertical"
         value={value}
-        sx={{ borderRight: 1, height: 450, minWidth: 200 }}
         onChange={handleChange}
+        sx={{
+          display: { xs: "none", md: "flex" },
+          borderRight: 1,
+          borderColor: "divider",
+          minWidth: 220,
+          py: 2,
+          "& .MuiTab-root": { justifyContent: "flex-start", minHeight: 52, px: 3 },
+          "& .MuiTabs-indicator": { left: 0, width: 3, borderRadius: 3 },
+        }}
       >
         {tabContent.map((tab, index) => (
-          <Tab key={index} label={tab.label} sx={{ mr: 3 }}></Tab>
+          <Tab key={index} label={tab.label} icon={tab.icon} iconPosition="start" />
         ))}
       </Tabs>
-      <Box sx={{ flexGrow: 1, p: 3, pt: 0 }}>{tabContent[value].content}</Box>
-    </Box>
+      <Box sx={{ flexGrow: 1, p: { xs: 2, md: 4 }, minWidth: 0 }}>
+        <motion.div
+          key={value}
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {tabContent[value].content}
+        </motion.div>
+      </Box>
+    </Paper>
   );
 }

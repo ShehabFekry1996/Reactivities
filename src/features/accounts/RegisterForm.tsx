@@ -1,15 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAccounts } from "../../lib/types/hooks/useAccounts";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
-import { Avatar, Box, Button, Paper, Typography } from "@mui/material";
-import { LockOpen } from "@mui/icons-material";
+import { Link } from "react-router";
+import { Box, Button, Typography } from "@mui/material";
 import TextInput from "../../app/shared/components/TextInput";
 import { registerSchema, type RegisterSchema } from "../../lib/schemas/registerSchema";
+import AuthLayout from "./AuthLayout";
 
 export default function RegisterForm() {
   const { registerUser } = useAccounts();
-  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -34,47 +33,7 @@ export default function RegisterForm() {
 };
 
   return (
-    <Paper
-      component="form"
-      onSubmit={handleSubmit(onSubmit)}
-      elevation={6}
-      sx={{
-        p: { xs: 3, sm: 5 },
-        mt: 8,
-        mx: "auto",
-        maxWidth: 440,
-        borderRadius: 4,
-        display: "flex",
-        flexDirection: "column",
-        gap: 3,
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 1,
-        }}
-      >
-        <Avatar
-          sx={{
-            bgcolor: "secondary.main",
-            width: 56,
-            height: 56,
-            boxShadow: 3,
-          }}
-        >
-          <LockOpen fontSize="large" />
-        </Avatar>
-        <Typography variant="h4" sx={{ fontWeight: 700 }}>
-          Create account
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Register to continue
-        </Typography>
-      </Box>
-
+    <AuthLayout title="Create account ✨" subtitle="Join the community in less than a minute" onSubmit={handleSubmit(onSubmit)}>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
         <TextInput label="Email" name="email" type="email" control={control} />
         <TextInput label="Display name" name="displayName" control={control} />
@@ -92,23 +51,17 @@ export default function RegisterForm() {
         size="large"
         fullWidth
         disabled={!isValid || isSubmitting}
-        sx={{
-          py: 1.5,
-          borderRadius: 2,
-          fontWeight: 600,
-          textTransform: "none",
-          fontSize: "1rem",
-        }}
+        sx={{ py: 1.5, fontSize: "1rem" }}
       >
         {isSubmitting ? "Registering..." : "Register"}
       </Button>
 
       <Typography variant="body2" color="text.secondary" align="center">
         Already have an account?{" "}
-        <Button variant="text" color="primary" onClick={() => navigate("/login")}>
+        <Box component={Link} to="/login" sx={{ color: "primary.main", fontWeight: 700, textDecoration: "none" }}>
           Login
-        </Button>
+        </Box>
       </Typography>
-    </Paper>
+    </AuthLayout>
   );
 }

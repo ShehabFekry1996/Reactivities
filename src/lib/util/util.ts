@@ -12,3 +12,6 @@ export const requiredString = (fieldName:string) => z.string({required_error: `$
     export function timeAgo(date: DateArg<Date>){
         return formatDistanceToNow(date);
     }
+export function fromNow(date: DateArg<Date>) {
+    return formatDistanceToNow(date, { addSuffix: true });
+}

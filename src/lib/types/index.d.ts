@@ -41,6 +41,13 @@ type Profile = {
   following?:boolean
 };
 
+type UserActivity = {
+  id: string;
+  title: string;
+  category: string;
+  date: Date;
+};
+
 type Photo = {
   id: string;
   url: string;

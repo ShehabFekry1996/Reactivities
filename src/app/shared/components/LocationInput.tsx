@@ -68,9 +68,9 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
             />
-            {loading && <Typography>Loading...</Typography>}
+            {loading && <Typography variant='body2' color='text.secondary' sx={{ mt: 1 }}>Searching...</Typography>}
             {suggestions.length > 0 && (
-                <List sx={{ border: 1 }}>
+                <List sx={{ border: 1, borderColor: 'divider', borderRadius: 3, mt: 1, overflow: 'hidden', bgcolor: 'background.paper' }}>
                     {suggestions.map(suggestion => (
                         <ListItemButton
                             divider
