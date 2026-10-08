@@ -80,3 +80,14 @@ body {
     font-size: 15px;
     line-height: 1;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 100px var(--mui-palette-background-paper) inset !important;
+    -webkit-text-fill-color: var(--mui-palette-text-primary) !important;
+    caret-color: var(--mui-palette-text-primary);
+    border-radius: inherit;
+    transition: background-color 9999s ease-out 0s;
+}

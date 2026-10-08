@@ -24,7 +24,7 @@ export const useAccounts = () => {
             await agent.post('/account/logout');
         },
         onSuccess: () => {
-            queryClient.removeQueries({queryKey:['user']});
+            queryClient.setQueryData(['user'], null);
             queryClient.removeQueries({queryKey:['activities']});
             navigate('/');
         }
