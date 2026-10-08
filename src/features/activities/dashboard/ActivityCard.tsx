@@ -16,7 +16,10 @@ export default function ActivityCard({activity}: Props) {
     <Card elevation={3}>
         <Box sx={{display:'flex', alignItems:'center',justifyContent:'space-between'}}>
             <CardHeader 
-            avatar={<Avatar sx={{height:80,width:80}}></Avatar>} 
+            avatar={<Avatar src={activity.hostImageUrl}
+             alt="image of host" sx={{height:80,width:80}}>
+
+             </Avatar>} 
             title={activity.title} 
             slotProps={{fontWeight:'bold',fontSize:20}}
             subheader={
@@ -46,7 +49,7 @@ export default function ActivityCard({activity}: Props) {
           <Divider></Divider>
           <Box sx={{display:'flex' ,gap:2, backgroundColor:'grey.200',py:3,pl:3}}>
             {activity.attendees.map(att=>(
-              <AvatarPopover profile={att} key={att.id}></AvatarPopover>
+              <AvatarPopover  profile={att} key={att.id}></AvatarPopover>
 
             ))}
             </Box>

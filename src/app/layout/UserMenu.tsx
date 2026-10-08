@@ -11,11 +11,12 @@ export default function UserMenu() {
   const handleClick = (e: React.MouseEvent<HTMLElement>) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
   const {currentUser ,logoutUser} = useAccounts();
+  console.log(currentUser);
   return (
     <>
       <Button color="inherit" size="large" sx={{fontSize:'1.1rem'}} onClick={handleClick}>
         <Box sx={{display:'flex', alignItems:'center', gap:2}}>
-            <Avatar></Avatar>
+            <Avatar src={currentUser?.imageUrl} alt="current user"></Avatar >
             {currentUser?.displayName}
         </Box>
       </Button>
@@ -27,7 +28,7 @@ export default function UserMenu() {
           <ListItemText>Create Activity</ListItemText>
         </MenuItem>
         <Divider></Divider>
-         <MenuItem component={Link} to='/profile' onClick={handleClose}>
+         <MenuItem component={Link} to={`/profiles/${currentUser?.id}`} onClick={handleClose}>
         <ListItemIcon>
           <Person></Person>
           </ListItemIcon>

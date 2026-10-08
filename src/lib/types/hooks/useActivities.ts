@@ -18,10 +18,12 @@ export const useActivities = (id?: string) => {
     //if we have the id then this is enabled if we don't then don't execute    
     select:data =>{
         return data.map(activity => {
+            const host = activity.attendees.find(x=>x.id === activity.hostId)
             return{
                 ...activity,
                 isHost: currentUser?.id  === activity.hostId,
-                isGoing: activity.attendees.some(x=>x.id === currentUser?.id)
+                isGoing: activity.attendees.some(x=>x.id === currentUser?.id),
+                hostImageUrl: host?.imageUrl
             }
         })
     }
@@ -36,11 +38,12 @@ export const useActivities = (id?: string) => {
     enabled: !!id && !!currentUser,
      //if we have the id then this is enabled if we don't then don't execute
      select: data =>{
+        const host = data.attendees.find(x=>x.id === data.hostId)
         return{
             ...data,
                   isHost: currentUser?.id  === data.hostId,
-                isGoing: data.attendees.some(x=>x.id === currentUser?.id)
-
+                isGoing: data.attendees.some(x=>x.id === currentUser?.id),
+                hostImageUrl : host?.imageUrl
         }
      }
   })
