@@ -8,8 +8,7 @@ export const useActivities = (id?: string) => {
     const location = useLocation();
     const queryClient = useQueryClient();
     const {currentUser} = useAccounts();
-    console.log('currentUser', currentUser);
-      const {data:activities,isLoading} = useQuery({
+    const {data:activities,isLoading} = useQuery({
     queryKey: ['activities'],
     queryFn: async () => {
       const response = await agent.get<Activity[]>('activities');
@@ -64,6 +63,43 @@ export const useActivities = (id?: string) => {
         await queryClient.invalidateQueries({ queryKey: ['activities'] });
     }
  })
+
+
+ const updateAttendance=  useMutation({
+    mutationFn: async(id: string) =>{
+        await agent.post(`/activities/${id}/attend`)
+        
+    }, 
+    onMutate: async(activityId:string) =>{
+        await queryClient.cancelQueries({queryKey:['activities',activityId]});
+        const prevActivity = queryClient.getQueryData<Activity>(['activities',activityId]);
+        queryClient.setQueryData<Activity>(['activities',activityId],oldActivity =>{
+            if(!oldActivity || !currentUser){
+                return oldActivity
+            }
+            const isHost = oldActivity.hostId === currentUser.id;
+            const isAttending = oldActivity.attendees.some(x=>x.id === currentUser.id);
+            return{
+                ...oldActivity,
+                isCancelled: isHost ? !oldActivity.isCancelled : oldActivity.isCancelled,
+                attendees: isAttending ? isHost ? oldActivity.attendees :
+                oldActivity.attendees.filter(x=>x.id !== currentUser.id)
+                : [...oldActivity.attendees,{
+                    id:currentUser.id,
+                    displayName:currentUser.displayName,
+                    imageUrl: currentUser.imageUrl
+                }]
+            }
+        })
+        return {prevActivity};
+    },
+    onError: (error,activityId,context) => {
+        console.log(error);
+        if(context?.prevActivity){
+            queryClient.setQueryData(['activities',activityId],context.prevActivity)
+        }
+    }
+ })
  const deleteActivity = useMutation({
     mutationFn: async (id:string) => {
         await agent.delete(`/activities/${id}`);
@@ -72,5 +108,5 @@ export const useActivities = (id?: string) => {
         await queryClient.invalidateQueries({ queryKey: ['activities'] });
     }
  })
-  return { activities, isLoading ,updateActivity,createActivity,deleteActivity, activity,isLoadingActivity  };
+  return { activities,updateAttendance, isLoading ,updateActivity,createActivity,deleteActivity, activity,isLoadingActivity  };
 }

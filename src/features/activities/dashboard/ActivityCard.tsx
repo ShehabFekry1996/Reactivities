@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Card, CardContent, CardHeader, Chip, Divider, Typo
 import { Link } from "react-router";
 import { formatDate } from "../../../lib/util/util";
 import type { Activity } from "../../../lib/types";
+import AvatarPopover from "../../profiles/AvatarPopover";
 
 type Props = {
   activity: Activity;
@@ -26,7 +27,7 @@ export default function ActivityCard({activity}: Props) {
             >
             </CardHeader>
             <Box sx={{display:'flex', flexDirection:'column',  gap:2}}>
-                {(activity.isHost || activity.isGoing) && <Chip sx={{mr:2,borderRadius:2}} label={label} color={color}></Chip>}
+                {(activity.isHost || activity.isGoing) && <Chip variant="outlined" sx={{mr:2,borderRadius:2}} label={label} color={color}></Chip>}
                 {activity.isCancelled && <Chip label='Cancelled' color='error'></Chip>} 
             </Box>
         </Box>
@@ -45,9 +46,8 @@ export default function ActivityCard({activity}: Props) {
           <Divider></Divider>
           <Box sx={{display:'flex' ,gap:2, backgroundColor:'grey.200',py:3,pl:3}}>
             {activity.attendees.map(att=>(
-              <Avatar key={att.id} alt={att.displayName + ' image'} src={att.imageUrl}
-              component={Link} to={`/profiles/${att.id}`}
-              ></Avatar>
+              <AvatarPopover profile={att} key={att.id}></AvatarPopover>
+
             ))}
             </Box>
         </CardContent>

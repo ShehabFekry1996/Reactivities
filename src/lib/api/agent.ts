@@ -2,10 +2,6 @@ import axios from "axios";
 import { store } from "../stores/store";
 import { toast } from "react-toastify";
 import { router } from "../../app/layout/router/Routes";
-  const sleep = (delay: number) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, delay);
-    })};
 
 
     const agent = axios.create({
@@ -20,11 +16,9 @@ agent.interceptors.request.use(config => {
 
 agent.interceptors.response.use(async response =>
     {
-        await sleep(1000);
         store.uiStore.isIdle()
         return response;
     }, async error  => {
-        await sleep(1000);
         store.uiStore.isIdle();
         const {status,data} = error.response;
         switch  (status){
