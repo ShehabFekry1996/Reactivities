@@ -1,0 +1,25 @@
+name: Trigger production deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.DEPLOY_TRIGGER_TOKEN }}
+    steps:
+      - name: Ask API repo to rebuild and deploy
+        if: env.GH_TOKEN != ''
+        run: |
+          curl --fail -sS -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            https://api.github.com/repos/ShehabFekry1996/Reactivities-ASP.NET/dispatches \
+            -d '{"event_type":"client-updated","client_payload":{"sha":"${{ github.sha }}"}}'
+
+      - name: Skip (no DEPLOY_TRIGGER_TOKEN secret)
+        if: env.GH_TOKEN == ''
+        run: echo "DEPLOY_TRIGGER_TOKEN is not set - run the deploy workflow manually from the API repo."
