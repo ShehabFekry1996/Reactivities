@@ -60,7 +60,7 @@ export default function ActivityDetailsHeader({activity}: Props) {
                 initial={{ scale: 1.15 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: 'easeOut' }}
-                src={categoryImage(activity.category, 2000)}
+                src={categoryImage(activity.category, 2000, activity.imageIndex)}
                 alt={`${activity.category} image`}
                 sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: activity.isCancelled ? 'grayscale(1)' : 'none' }}
             />

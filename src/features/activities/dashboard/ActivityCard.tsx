@@ -41,7 +41,7 @@ export default function ActivityCard({activity, index = 0}: Props) {
         <Box
           className="cover"
           component="img"
-          src={categoryImage(activity.category, 800)}
+          src={categoryImage(activity.category, 800, activity.imageIndex)}
           alt={activity.category}
           sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .6s ease', filter: activity.isCancelled ? 'grayscale(1)' : 'none' }}
         />

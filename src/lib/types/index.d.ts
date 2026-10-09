@@ -14,6 +14,7 @@ type Activity = {
   venue: string;
   latitude: number;
   longitude: number;
+  imageIndex: number;
   attendees: Profile[];
   isGoing: boolean;
   isHost: boolean;
@@ -46,6 +47,7 @@ type UserActivity = {
   title: string;
   category: string;
   date: Date;
+  imageIndex: number;
 };
 
 type Photo = {
