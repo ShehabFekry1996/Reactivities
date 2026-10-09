@@ -104,7 +104,7 @@ export default function ActivityMap() {
                     '&:hover': { transform: 'translateX(4px)', borderColor: 'primary.main' }
                   }}
                 >
-                  <Box component="img" src={categoryImage(activity.category, 200, activity.imageIndex)} alt=""
+                  <Box component="img" src={categoryImage(activity.category, 160, activity.imageIndex)} loading="lazy" alt=""
                     sx={{ width: 64, height: 64, borderRadius: 3, objectFit: 'cover', flexShrink: 0 }} />
                   <Box sx={{ minWidth: 0, flexGrow: 1 }}>
                     <Typography sx={{ fontWeight: 700 }} noWrap>{activity.title}</Typography>

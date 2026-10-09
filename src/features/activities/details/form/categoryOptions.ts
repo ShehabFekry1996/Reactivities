@@ -22,5 +22,5 @@ export const getCategory = (category: string) =>
 
 export const categoryImage = (category: string, width = 1200, index = 0) => {
     const photos = getCategory(category).photos;
-    return `https://images.unsplash.com/${photos[index % photos.length]}?auto=format&fit=crop&w=${width}&q=80`;
+    return `https://images.unsplash.com/${photos[index % photos.length]}?auto=format&fit=crop&w=${width}&q=70`;
 }

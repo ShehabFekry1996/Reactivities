@@ -48,8 +48,8 @@ export default function ProfileActivities() {
                   sx={{ border: 1, borderColor: "divider", height: "100%" }}
                 >
                   <Box component={Link} to={`/activities/${activity.id}`} sx={{ textDecoration: "none", color: "inherit", display: "block" }}>
-                    <Box sx={{ position: "relative", height: 110 }}>
-                      <Box component="img" src={categoryImage(activity.category, 500, activity.imageIndex)} alt={activity.category}
+                    <Box sx={{ position: "relative", height: 110, bgcolor: meta.color }}>
+                      <Box component="img" src={categoryImage(activity.category, 400, activity.imageIndex)} loading="lazy" alt={activity.category}
                         sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       <Box sx={{ position: "absolute", top: 8, left: 8, px: 1, py: 0.25, borderRadius: 2, bgcolor: meta.color, color: "white", fontSize: 12, fontWeight: 700 }}>
                         {meta.emoji}

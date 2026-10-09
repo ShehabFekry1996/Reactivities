@@ -37,11 +37,13 @@ export default function ActivityCard({activity, index = 0}: Props) {
         '&:hover .cover': { transform: 'scale(1.08)' }
       }}
     >
-      <Box component={Link} to={`/activities/${activity.id}`} sx={{ position: 'relative', height: 190, overflow: 'hidden', display: 'block' }}>
+      <Box component={Link} to={`/activities/${activity.id}`} sx={{ position: 'relative', height: 190, overflow: 'hidden', display: 'block', background: `linear-gradient(135deg, ${category.color}, ${category.color}66)` }}>
         <Box
           className="cover"
           component="img"
-          src={categoryImage(activity.category, 800, activity.imageIndex)}
+          src={categoryImage(activity.category, 640, activity.imageIndex)}
+          loading="lazy"
+          decoding="async"
           alt={activity.category}
           sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .6s ease', filter: activity.isCancelled ? 'grayscale(1)' : 'none' }}
         />

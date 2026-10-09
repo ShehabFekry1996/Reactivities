@@ -53,14 +53,15 @@ export default function ActivityDetailsHeader({activity}: Props) {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
-            sx={{ position: 'relative', mb: 3, borderRadius: { xs: 4, md: 6 }, overflow: 'hidden', minHeight: { xs: 380, md: 400 } }}
+            sx={{ position: 'relative', mb: 3, borderRadius: { xs: 4, md: 6 }, overflow: 'hidden', minHeight: { xs: 380, md: 400 }, background: `linear-gradient(135deg, ${category.color}, #141629)` }}
         >
             <Box
                 component={motion.img}
                 initial={{ scale: 1.15 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: 'easeOut' }}
-                src={categoryImage(activity.category, 2000, activity.imageIndex)}
+                src={categoryImage(activity.category, 1600, activity.imageIndex)}
+                fetchPriority="high"
                 alt={`${activity.category} image`}
                 sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: activity.isCancelled ? 'grayscale(1)' : 'none' }}
             />

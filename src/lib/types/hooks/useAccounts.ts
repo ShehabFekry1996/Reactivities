@@ -33,9 +33,12 @@ export const useAccounts = () => {
     const registerUser = useMutation({
         mutationFn: async (creds: RegisterSchema) => {
             await agent.post('/account/register', creds);
+            await agent.post('/login?useCookies=true', { email: creds.email, password: creds.password });
         },
-        onSuccess: () =>{
-            toast.success('Registration successful - you can now login');
+        onSuccess: async (_, creds) =>{
+            await queryClient.invalidateQueries({queryKey:['user']});
+            toast.success(`Welcome to Reactivities, ${creds.displayName}!`);
+            navigate('/activities');
         }
     });
 

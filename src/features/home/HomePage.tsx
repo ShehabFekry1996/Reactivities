@@ -195,7 +195,7 @@ export default function HomePage() {
                   '&:hover img': { transform: 'scale(1.08)' }
                 }}
               >
-                <Box component='img' src={categoryImage(category.value, 900)} loading='lazy' alt={category.text}
+                <Box component='img' src={categoryImage(category.value, 600)} loading='lazy' alt={category.text}
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .6s ease' }} />
                 <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.75), transparent 60%)' }} />
                 <Typography variant='h6' sx={{ position: 'absolute', left: 16, bottom: 12, color: 'white' }}>
