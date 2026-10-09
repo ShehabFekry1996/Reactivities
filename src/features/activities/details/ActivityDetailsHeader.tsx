@@ -7,7 +7,7 @@ import { formatDate, fromNow } from "../../../lib/util/util";
 import type { Activity } from "../../../lib/types";
 import { useActivities } from "../../../lib/types/hooks/useActivities";
 import StyledButton from "../../../app/shared/components/StyledButton";
-import { getCategory } from "./form/categoryOptions";
+import { categoryImage, getCategory } from "./form/categoryOptions";
 
 type Props ={
     activity : Activity
@@ -60,7 +60,7 @@ export default function ActivityDetailsHeader({activity}: Props) {
                 initial={{ scale: 1.15 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 1.2, ease: 'easeOut' }}
-                src={`/images/categoryImages/${activity.category}.jpg`}
+                src={categoryImage(activity.category, 2000)}
                 alt={`${activity.category} image`}
                 sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', filter: activity.isCancelled ? 'grayscale(1)' : 'none' }}
             />
@@ -86,7 +86,7 @@ export default function ActivityDetailsHeader({activity}: Props) {
             }}>
                 <Box sx={{ minWidth: 0 }}>
                     <Stack direction="row" spacing={1} sx={{ mb: 1.5, flexWrap: 'wrap', gap: 1 }}>
-                        <Chip label={`${category.emoji} ${activity.category}`} sx={{ bgcolor: category.color, color: 'white', textTransform: 'capitalize' }} />
+                        <Chip label={`${category.emoji} ${category.text}`} sx={{ bgcolor: category.color, color: 'white', textTransform: 'capitalize' }} />
                         {activity.isCancelled && <Chip label="Cancelled" color="error" />}
                         {!activity.isCancelled && (
                             <Chip label={isPast ? 'Ended' : `Starts ${fromNow(date)}`} sx={{ bgcolor: 'rgba(255,255,255,.18)', color: 'white', backdropFilter: 'blur(8px)' }} />

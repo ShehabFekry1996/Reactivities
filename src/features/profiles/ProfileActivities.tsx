@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { motion } from "motion/react";
 import { useProfile } from "../../lib/types/hooks/useProfile";
 import EmptyState from "../../app/shared/components/EmptyState";
-import { getCategory } from "../activities/details/form/categoryOptions";
+import { categoryImage, getCategory } from "../activities/details/form/categoryOptions";
 
 const tabs = [
   { label: "Upcoming", value: "future" },
@@ -49,7 +49,7 @@ export default function ProfileActivities() {
                 >
                   <Box component={Link} to={`/activities/${activity.id}`} sx={{ textDecoration: "none", color: "inherit", display: "block" }}>
                     <Box sx={{ position: "relative", height: 110 }}>
-                      <Box component="img" src={`/images/categoryImages/${activity.category}.jpg`} alt={activity.category}
+                      <Box component="img" src={categoryImage(activity.category, 500)} alt={activity.category}
                         sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
                       <Box sx={{ position: "absolute", top: 8, left: 8, px: 1, py: 0.25, borderRadius: 2, bgcolor: meta.color, color: "white", fontSize: 12, fontWeight: 700 }}>
                         {meta.emoji}

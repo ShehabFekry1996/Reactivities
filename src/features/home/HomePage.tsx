@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { motion, type Variants } from "motion/react";
 import { useAccounts } from "../../lib/types/hooks/useAccounts";
 import { gradient } from "../../app/theme/theme";
-import { categoryOptions, getCategory } from "../activities/details/form/categoryOptions";
+import { categoryImage, categoryOptions, getCategory } from "../activities/details/form/categoryOptions";
 
 const container: Variants = {
   hidden: {},
@@ -114,7 +114,7 @@ export default function HomePage() {
 
             <Grid size={{ xs: 12, md: 5 }} sx={{ display: { xs: 'none', md: 'block' } }}>
               <Box sx={{ position: 'relative', height: 480 }}>
-                {categoryOptions.map((category, index) => {
+                {categoryOptions.slice(0, 6).map((category, index) => {
                   const meta = getCategory(category.value);
                   const positions = [
                     { top: '0%', left: '10%' }, { top: '8%', left: '58%' }, { top: '34%', left: '30%' },
@@ -183,7 +183,7 @@ export default function HomePage() {
         <Typography variant='h4' sx={{ mb: 3, fontSize: { xs: '1.6rem', md: '2.125rem' } }}>Pick your vibe</Typography>
         <Grid container spacing={2}>
           {categoryOptions.map((category, index) => (
-            <Grid key={category.value} size={{ xs: 6, md: 4 }}>
+            <Grid key={category.value} size={{ xs: 6, sm: 4, md: 3 }}>
               <Box
                 component={motion.div}
                 initial={{ opacity: 0, scale: 0.94 }}
@@ -191,11 +191,11 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.06 }}
                 sx={{
-                  position: 'relative', height: { xs: 140, md: 200 }, borderRadius: 5, overflow: 'hidden',
+                  position: 'relative', height: { xs: 130, md: 180 }, borderRadius: 5, overflow: 'hidden',
                   '&:hover img': { transform: 'scale(1.08)' }
                 }}
               >
-                <Box component='img' src={`/images/categoryImages/${category.value}.jpg`} alt={category.text}
+                <Box component='img' src={categoryImage(category.value, 900)} loading='lazy' alt={category.text}
                   sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .6s ease' }} />
                 <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.75), transparent 60%)' }} />
                 <Typography variant='h6' sx={{ position: 'absolute', left: 16, bottom: 12, color: 'white' }}>

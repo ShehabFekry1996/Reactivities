@@ -7,7 +7,7 @@ import { Link } from "react-router";
 import { format } from "date-fns";
 import { motion } from "motion/react";
 import { useExplore } from "../../../lib/types/hooks/useExplore";
-import { categoryOptions, getCategory } from "../details/form/categoryOptions";
+import { categoryImage, categoryOptions, getCategory } from "../details/form/categoryOptions";
 import { categoryIcon, tileAttribution, tileUrl } from "../../../lib/util/mapUtils";
 import PageHeader from "../../../app/shared/components/PageHeader";
 import EmptyState from "../../../app/shared/components/EmptyState";
@@ -104,7 +104,7 @@ export default function ActivityMap() {
                     '&:hover': { transform: 'translateX(4px)', borderColor: 'primary.main' }
                   }}
                 >
-                  <Box component="img" src={`/images/categoryImages/${activity.category}.jpg`} alt=""
+                  <Box component="img" src={categoryImage(activity.category, 200)} alt=""
                     sx={{ width: 64, height: 64, borderRadius: 3, objectFit: 'cover', flexShrink: 0 }} />
                   <Box sx={{ minWidth: 0, flexGrow: 1 }}>
                     <Typography sx={{ fontWeight: 700 }} noWrap>{activity.title}</Typography>

@@ -5,7 +5,7 @@ import { format } from "date-fns";
 import { motion } from "motion/react";
 import { fromNow } from "../../../lib/util/util";
 import type { Activity } from "../../../lib/types";
-import { getCategory } from "../details/form/categoryOptions";
+import { categoryImage, getCategory } from "../details/form/categoryOptions";
 
 type Props = {
   activity: Activity;
@@ -41,12 +41,12 @@ export default function ActivityCard({activity, index = 0}: Props) {
         <Box
           className="cover"
           component="img"
-          src={`/images/categoryImages/${activity.category}.jpg`}
+          src={categoryImage(activity.category, 800)}
           alt={activity.category}
           sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform .6s ease', filter: activity.isCancelled ? 'grayscale(1)' : 'none' }}
         />
         <Box sx={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,.65), transparent 55%)' }} />
-        <Chip size="small" label={`${category.emoji} ${activity.category}`} sx={{ ...glass, position: 'absolute', top: 12, left: 12, textTransform: 'capitalize' }} />
+        <Chip size="small" label={`${category.emoji} ${category.text}`} sx={{ ...glass, position: 'absolute', top: 12, left: 12, textTransform: 'capitalize' }} />
         <Stack direction="row" spacing={0.75} sx={{ position: 'absolute', top: 12, right: 12 }}>
           {activity.isCancelled && <Chip size="small" label="Cancelled" color="error" />}
           {!activity.isCancelled && activity.isHost && <Chip size="small" label="Hosting" color="secondary" />}
